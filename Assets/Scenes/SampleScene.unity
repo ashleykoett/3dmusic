@@ -666,7 +666,7 @@ Transform:
   m_GameObject: {fileID: 371735350}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00770244, y: 0.000000006892857, z: -0.004104442, w: 0.9999619}
-  m_LocalPosition: {x: -47, y: 1.2711, z: -30}
+  m_LocalPosition: {x: -29, y: 1.2711, z: -11}
   m_LocalScale: {x: 1.0467919, y: 1.2475915, z: 0.5824}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -704,7 +704,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   jumpHeight: 5
   jumpFrequency: 0.7
-  speed: 3
+  speed: 4.2
   gravity: -55
 --- !u!1 &479398145
 GameObject:
@@ -1855,7 +1855,7 @@ Transform:
   m_GameObject: {fileID: 1407591977}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00770244, y: 0.000000006892857, z: -0.004104442, w: 0.9999619}
-  m_LocalPosition: {x: 37, y: 1.2457, z: 28}
+  m_LocalPosition: {x: 10, y: 1.2457, z: -7}
   m_LocalScale: {x: 1.8315308, y: 0.83562, z: 1.1880698}
   m_ConstrainProportionsScale: 0
   m_Children: []

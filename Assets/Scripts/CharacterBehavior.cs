@@ -14,6 +14,7 @@ public class CharacterBehavior : MonoBehaviour
 
     private AudioSource audioSource;
 
+    private float _initialPitch;
     private Vector3 _playerVelocity;
     private bool _grounded = false;
     private float _lastJumpTime = 0.0f;
@@ -23,6 +24,7 @@ public class CharacterBehavior : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
+        _initialPitch = audioSource.pitch;
     }
 
     public virtual void MoveCharacter(Vector3 moveVelocity)
@@ -40,6 +42,11 @@ public class CharacterBehavior : MonoBehaviour
             _playerVelocity.y = 0f;
         }
 
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            audioSource.pitch = _initialPitch;
+        }
+
         controller.Move(speed * Time.deltaTime * moveVelocity);
 
         if (moveVelocity != Vector3.zero)
@@ -53,6 +60,7 @@ public class CharacterBehavior : MonoBehaviour
                 if (Input.GetKey(KeyCode.Space))
                 {
                     height = jumpHeight * 2;
+                    audioSource.pitch = _initialPitch * 0.8f;
                 }
                 Jump(height);
             }
