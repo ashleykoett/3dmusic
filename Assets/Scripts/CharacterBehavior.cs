@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
-public abstract class CharacterBehavior : MonoBehaviour
+public class CharacterBehavior : MonoBehaviour
 {
-    public readonly string Name;
     public CharacterController controller;
 
     public float jumpHeight;
@@ -15,33 +15,17 @@ public abstract class CharacterBehavior : MonoBehaviour
     private AudioSource audioSource;
 
     private Vector3 _playerVelocity;
-    private bool _grounded = true;
+    private bool _grounded = false;
     private float _lastJumpTime = 0.0f;
 
-    private Vector3 _moveVelocity = Vector3.zero;
 
-    public CharacterBehavior(string name, CharacterController controller, float jumpHeight, float jumpFrequency, float speed, float gravity, AudioSource audioSource)
+    private void Start()
     {
-        Name = name;
-        this.controller = controller;
-        this.jumpHeight = jumpHeight;
-        this.jumpFrequency = jumpFrequency;
-        this.speed = speed;
-        this.gravity = gravity;
-        this.audioSource = audioSource;
+        controller = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>();
     }
 
-    public Vector3 GetMoveVelocity()
-    {
-        return _moveVelocity;
-    }
-
-    public void SetMoveVelocity(Vector3 v)
-    {
-        _moveVelocity = v;
-    }
-
-    public virtual void MoveCharacter(Vector3 pos)
+    public virtual void MoveCharacter(Vector3 moveVelocity)
     {
         // See if we just hit the ground
         if (!_grounded && controller.isGrounded)
@@ -56,11 +40,11 @@ public abstract class CharacterBehavior : MonoBehaviour
             _playerVelocity.y = 0f;
         }
 
-        controller.Move(speed * Time.deltaTime * _moveVelocity);
+        controller.Move(speed * Time.deltaTime * moveVelocity);
 
-        if (_moveVelocity != Vector3.zero)
+        if (moveVelocity != Vector3.zero)
         {
-            transform.forward = _moveVelocity;
+            transform.forward = moveVelocity;
 
             float timer = Time.time - _lastJumpTime;
             if (_grounded && timer >= jumpFrequency)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+
+// DEPRICATED lol
 public class CharacterMovement : MonoBehaviour
 {
     public CharacterController controller;

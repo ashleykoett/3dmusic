@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public CharacterBehavior characterBehavior;
+
+    private void Start()
     {
-        
+        characterBehavior = GetComponent<CharacterBehavior>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (characterBehavior != null)
+        {
+            Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            characterBehavior.MoveCharacter(move);
+        }
     }
 }
