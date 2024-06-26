@@ -1,54 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public abstract class CharacterBehavior : MonoBehaviour
 {
+    public readonly string Name;
     public CharacterController controller;
-    
+
     public float jumpHeight;
     public float jumpFrequency;
     public float speed = 2f;
     public float gravity = -50f;
 
     private AudioSource audioSource;
+
     private Vector3 _playerVelocity;
     private bool _grounded = true;
     private float _lastJumpTime = 0.0f;
 
-    private void Start()
+    private Vector3 _moveVelocity = Vector3.zero;
+
+    public CharacterBehavior(string name, CharacterController controller, float jumpHeight, float jumpFrequency, float speed, float gravity, AudioSource audioSource)
     {
-        audioSource = GetComponent<AudioSource>();
+        Name = name;
+        this.controller = controller;
+        this.jumpHeight = jumpHeight;
+        this.jumpFrequency = jumpFrequency;
+        this.speed = speed;
+        this.gravity = gravity;
+        this.audioSource = audioSource;
     }
 
-    void Update()
+    public Vector3 GetMoveVelocity()
+    {
+        return _moveVelocity;
+    }
+
+    public void SetMoveVelocity(Vector3 v)
+    {
+        _moveVelocity = v;
+    }
+
+    public virtual void MoveCharacter(Vector3 pos)
     {
         // See if we just hit the ground
-        if(!_grounded && controller.isGrounded)
+        if (!_grounded && controller.isGrounded)
         {
             audioSource.Play();
         }
 
         _grounded = controller.isGrounded;
 
-        if ( _grounded && _playerVelocity.y < 0 )
+        if (_grounded && _playerVelocity.y < 0)
         {
             _playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        controller.Move(speed * Time.deltaTime * move);
+        controller.Move(speed * Time.deltaTime * _moveVelocity);
 
-        if(move !=  Vector3.zero )
+        if (_moveVelocity != Vector3.zero)
         {
-            transform.forward = move;
+            transform.forward = _moveVelocity;
 
             float timer = Time.time - _lastJumpTime;
             if (_grounded && timer >= jumpFrequency)
             {
                 float height = jumpHeight;
-                if( Input.GetKey(KeyCode.Space) )
+                if (Input.GetKey(KeyCode.Space))
                 {
                     height = jumpHeight * 2;
                 }
@@ -58,10 +76,9 @@ public class CharacterMovement : MonoBehaviour
 
         _playerVelocity.y += gravity * Time.deltaTime;
         controller.Move(_playerVelocity * Time.deltaTime);
-
     }
 
-    private void Jump(float height)
+    public virtual void Jump(float height)
     {
         _playerVelocity.y += Mathf.Sqrt(height * -1.0F * gravity);
         _lastJumpTime = Time.time;
