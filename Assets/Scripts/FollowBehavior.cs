@@ -38,8 +38,12 @@ public class FollowBehavior : MonoBehaviour
                 _dir = (_followPosition - transform.position).normalized;
                 _dir.y = 0;
             }
-
-            characterBehavior.MoveCharacter(_dir);
         }
+        else
+        {
+            _dir = Vector3.zero;
+        }
+
+        characterBehavior.MoveCharacter(_dir);
     }
 }

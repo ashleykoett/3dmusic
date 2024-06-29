@@ -1362,12 +1362,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 688901686}
-  jumpHeight: 5
-  jumpFrequency: 0.5
-  speed: 10
-  gravity: -50
-  compressedScale: {x: 1.05, y: 0.8, z: 1}
-  maxScale: {x: 0.8, y: 1.2, z: 1}
+  jumpHeight: 7
+  jumpFrequency: 0.6
+  speed: 15
+  gravity: -60
+  compressedScale: {x: 1, y: 0.7, z: 1}
+  maxScale: {x: 0.7, y: 1.3, z: 1}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1540,8 +1540,8 @@ MonoBehaviour:
   jumpFrequency: 0.8
   speed: 5
   gravity: -65
-  compressedScale: {x: 1.2, y: 0.8, z: 1}
-  maxScale: {x: 0.8, y: 1.2, z: 1}
+  compressedScale: {x: 1.2, y: 0.7, z: 1}
+  maxScale: {x: 0.8, y: 1.3, z: 1}
 --- !u!82 &857881198
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1764,8 +1764,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 1
+  field of view: 64
+  orthographic: 0
   orthographic size: 10
   m_Depth: -1
   m_CullingMask:
@@ -1791,7 +1791,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.36531267, y: -0.24739549, z: 0.101357035, w: 0.8916664}
-  m_LocalPosition: {x: 21, y: 41, z: -32}
+  m_LocalPosition: {x: 13.1, y: 23.7, z: -18.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1810,8 +1810,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 688901679}
-  xOffset: 20.1
-  zOffset: -32.7
+  characterBehavior: {fileID: 0}
+  xOffset: 9.7
+  yOffset: 20.4
+  zOffset: -17.5
+  smoothing: 0.1
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2487,8 +2490,8 @@ MonoBehaviour:
   jumpFrequency: 0.4
   speed: 8
   gravity: -80
-  compressedScale: {x: 1.2, y: 0.8, z: 1}
-  maxScale: {x: 0.8, y: 1.2, z: 1}
+  compressedScale: {x: 1.2, y: 0.7, z: 1}
+  maxScale: {x: 0.8, y: 1.3, z: 1}
 --- !u!82 &1407591980
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3078,8 +3081,8 @@ MonoBehaviour:
   jumpFrequency: 0.3
   speed: 6
   gravity: -70
-  compressedScale: {x: 1.2, y: 0.8, z: 1}
-  maxScale: {x: 0.8, y: 1.2, z: 1}
+  compressedScale: {x: 1.2, y: 0.7, z: 1}
+  maxScale: {x: 0.8, y: 1.3, z: 1}
 --- !u!82 &2113689508
 AudioSource:
   m_ObjectHideFlags: 0

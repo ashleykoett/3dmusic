@@ -34,6 +34,8 @@ public class CharacterBehavior : MonoBehaviour
     private bool _soundPlayed = false;
     private bool _jumping = false;
 
+    private float _lastGroundedPosY = 0f;
+
 
     private void Start()
     {
@@ -42,6 +44,8 @@ public class CharacterBehavior : MonoBehaviour
         _initialPitch = audioSource.pitch;
         _initialScale = transform.localScale;
         _currentScale = transform.localScale;
+
+        _lastGroundedPosY = transform.position.y;
 
         compressedScale = new Vector3(compressedScale.x*_initialScale.x, compressedScale.y*_initialScale.y, compressedScale.z*_initialScale.z);
         maxScale = new Vector3(maxScale.x*_initialScale.x, maxScale.y*_initialScale.y, maxScale.z*_initialScale.z);
@@ -53,6 +57,8 @@ public class CharacterBehavior : MonoBehaviour
         if (!_grounded && controller.isGrounded && !_soundPlayed)
         {
             _jumping = false;
+            _lastGroundedPosY = transform.position.y;
+
             audioSource.Play();
             _soundPlayed = true;
         }
@@ -66,12 +72,18 @@ public class CharacterBehavior : MonoBehaviour
         }
 
         // Check if we are exiting slow mode
-        if(Input.GetKeyUp(KeyCode.Space) && audioSource.pitch != _initialPitch)
+        if(!Input.GetButton("Jump") && audioSource.pitch != _initialPitch)
         {
             audioSource.pitch = _initialPitch;
         }
 
+        if(moveVelocity != _targetMoveVelocity)
+        {
+            _posSinTime = 0;
+        }
+
         _targetMoveVelocity = moveVelocity;
+        
         // Smooth player direction
         if (_currentMoveVelocity != _targetMoveVelocity)
         {
@@ -125,7 +137,7 @@ public class CharacterBehavior : MonoBehaviour
             if (_grounded && timer >= jumpFrequency)
             {
                 float height = jumpHeight;
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetButton("Jump"))
                 {
                     height = jumpHeight * 2;
                     audioSource.pitch = _initialPitch * 0.8f;
@@ -137,6 +149,13 @@ public class CharacterBehavior : MonoBehaviour
         // Apply gravity and velocity
         _playerVelocity.y += gravity * Time.deltaTime;
         controller.Move(_playerVelocity * Time.deltaTime);
+
+        _currentMoveVelocity = moveVelocity;
+    }
+
+    public float GetLastGroundedPosition()
+    {
+        return _lastGroundedPosY;
     }
 
     public virtual void Jump(float height)
