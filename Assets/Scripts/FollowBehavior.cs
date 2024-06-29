@@ -8,7 +8,7 @@ public class FollowBehavior : MonoBehaviour
     public GameObject target;
     public float closeDistance = 1f;
     public float followDistance = 100f;
-    public Color color = Color.white;
+    // public Color color = Color.white;
 
     private Vector3 _followPosition;
     private Vector3 _targetPosition;
@@ -18,7 +18,7 @@ public class FollowBehavior : MonoBehaviour
     private void Start()
     {
         characterBehavior = GetComponent<CharacterBehavior>();
-        GetComponent<Renderer>().material.color = color;
+        // GetComponent<Renderer>().material.color = color;
     }
 
     public void Update()
