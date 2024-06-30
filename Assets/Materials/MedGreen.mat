@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shiny
+  m_Name: MedGreen
   m_Shader: {fileID: -6465566751694194690, guid: 9c3428d4976c9544fba3a892e25dcc03, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: d49b5e25b14ee36479d52b9f7afedec4, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -86,7 +86,7 @@ Material:
     - _GlossyReflections: 1
     - _Max: 1
     - _Metallic: 0
-    - _Min: 0.3
+    - _Min: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -99,7 +99,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.93675023, g: 1, b: 0.8537736, a: 1}
+    - _Color: {r: 0.19215022, g: 0.3207547, b: 0.22967337, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5554098145741798118

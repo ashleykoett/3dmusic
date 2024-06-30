@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
+
+
 
 public class CharacterBehavior : MonoBehaviour
 {
+    const float SEMITONE_CONSTANT = 1.05946f;
     public CharacterController controller;
-
+    public int[] semitonePallette;
+    public int semitones = 0;
     public float jumpHeight;
     public float jumpFrequency;
     public float speed = 2f;
@@ -49,6 +50,9 @@ public class CharacterBehavior : MonoBehaviour
 
         compressedScale = new Vector3(compressedScale.x*_initialScale.x, compressedScale.y*_initialScale.y, compressedScale.z*_initialScale.z);
         maxScale = new Vector3(maxScale.x*_initialScale.x, maxScale.y*_initialScale.y, maxScale.z*_initialScale.z);
+
+        _initialPitch = GetPitchFromSemitones(semitonePallette[0]);
+        audioSource.pitch = _initialPitch;
     }
 
     public virtual void MoveCharacter(Vector3 moveVelocity)
@@ -59,7 +63,7 @@ public class CharacterBehavior : MonoBehaviour
             _jumping = false;
             _lastGroundedPosY = transform.position.y;
 
-            audioSource.Play();
+            PlayNextSound();
             _soundPlayed = true;
         }
 
@@ -72,7 +76,7 @@ public class CharacterBehavior : MonoBehaviour
         }
 
         // Check if we are exiting slow mode
-        if(!Input.GetButton("Jump") && audioSource.pitch != _initialPitch)
+        if(Input.GetButtonUp("Jump") && audioSource.pitch != _initialPitch)
         {
             audioSource.pitch = _initialPitch;
         }
@@ -139,8 +143,8 @@ public class CharacterBehavior : MonoBehaviour
                 float height = jumpHeight;
                 if (Input.GetButton("Jump"))
                 {
-                    height = jumpHeight * 2;
-                    audioSource.pitch = _initialPitch * 0.8f;
+                    height = jumpHeight * 2f;
+                    ShiftAudio(-2f);
                 }
                 Jump(height);
             }
@@ -153,17 +157,40 @@ public class CharacterBehavior : MonoBehaviour
         _currentMoveVelocity = moveVelocity;
     }
 
-    public float GetLastGroundedPosition()
-    {
-        return _lastGroundedPosY;
-    }
-
     public virtual void Jump(float height)
     {
         _jumping = true;
         _soundPlayed = false;
         _playerVelocity.y += Mathf.Sqrt(height * -1.0F * gravity);
         _lastJumpTime = Time.time;
+    }
+
+    public float GetLastGroundedPosition()
+    {
+        return _lastGroundedPosY;
+    }
+
+    private void PlayNextSound()
+    {
+        float p = GetNextNote();
+        audioSource.pitch = p;
+        audioSource.Play();
+    }
+
+    private float GetNextNote()
+    {
+        int i = UnityEngine.Random.Range(0, semitonePallette.Length);
+        return GetPitchFromSemitones(semitonePallette[i]);
+    }
+
+    private float GetPitchFromSemitones(float s)
+    {
+        return Mathf.Pow(SEMITONE_CONSTANT, s);
+    }
+
+    private void ShiftAudio(float s)
+    {
+        audioSource.pitch = GetPitchFromSemitones(s);
     }
 
     /// <summary>
