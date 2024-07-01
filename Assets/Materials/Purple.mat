@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DarkGreen
+  m_Name: Purple
   m_Shader: {fileID: -6465566751694194690, guid: 9c3428d4976c9544fba3a892e25dcc03, type: 3}
-  m_Parent: {fileID: 2100000, guid: 155be516d52c85c4dbda5d4ec98d088b, type: 2}
+  m_Parent: {fileID: 2100000, guid: c70ccc4f68311db44a7c7c7d1020c915, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -22,17 +22,12 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _Texture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Min: 0
-    - _Shades: 0.3
+    - _Min: 0.1
     m_Colors:
-    - _Color: {r: 0.08610714, g: 0.14150941, b: 0.11747952, a: 1}
+    - _Color: {r: 0.8103231, g: 0.6117647, b: 0.8980392, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5554098145741798118
 MonoBehaviour:

@@ -5,10 +5,8 @@ using UnityEngine;
 
 public class CharacterBehavior : MonoBehaviour
 {
-    const float SEMITONE_CONSTANT = 1.05946f;
     public CharacterController controller;
-    public int[] semitonePallette;
-    public int semitones = 0;
+    public CharacterSoundController soundController;
     public float jumpHeight;
     public float jumpFrequency;
     public float speed = 2f;
@@ -16,33 +14,25 @@ public class CharacterBehavior : MonoBehaviour
 
     public Vector3 compressedScale = new Vector3(0.8f, 0.8f, 0.8f);
     public Vector3 maxScale = new Vector3(1.2f, 1.2f, 1.2f);
-
-    private AudioSource audioSource;
-
-    private float _initialPitch;
-    private Vector3 _playerVelocity;
-    private bool _grounded = false;
+    
+    protected Vector3 _playerVelocity;
+    protected bool _grounded = false;
     private float _lastJumpTime = 0.0f;
     private Vector3 _initialScale;
     private Vector3 _currentScale;
     private Vector3 _targetScale;
-
-    private Vector3 _currentMoveVelocity = Vector3.zero;
-    private Vector3 _targetMoveVelocity;
-
-    private float _posSinTime;
-    private float _scaleSinTime;
-    private bool _soundPlayed = false;
-    private bool _jumping = false;
-
-    private float _lastGroundedPosY = 0f;
+    protected Vector3 _currentMoveVelocity = Vector3.zero;
+    protected Vector3 _targetMoveVelocity;
+    protected float _posSinTime;
+    protected float _scaleSinTime;
+    protected bool _soundPlayed = false;
+    protected bool _jumping = false;
+    protected float _lastGroundedPosY = 0f;
 
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-        audioSource = GetComponent<AudioSource>();
-        _initialPitch = audioSource.pitch;
         _initialScale = transform.localScale;
         _currentScale = transform.localScale;
 
@@ -51,11 +41,10 @@ public class CharacterBehavior : MonoBehaviour
         compressedScale = new Vector3(compressedScale.x*_initialScale.x, compressedScale.y*_initialScale.y, compressedScale.z*_initialScale.z);
         maxScale = new Vector3(maxScale.x*_initialScale.x, maxScale.y*_initialScale.y, maxScale.z*_initialScale.z);
 
-        _initialPitch = GetPitchFromSemitones(semitonePallette[0]);
-        audioSource.pitch = _initialPitch;
+        soundController = GetComponent<CharacterSoundController>();
     }
 
-    public virtual void MoveCharacter(Vector3 moveVelocity)
+    public virtual void MoveCharacter(Vector3 moveVelocity, bool jumpEnabled = true)
     {
         // See if we just hit the ground
         if (!_grounded && controller.isGrounded && !_soundPlayed)
@@ -63,7 +52,10 @@ public class CharacterBehavior : MonoBehaviour
             _jumping = false;
             _lastGroundedPosY = transform.position.y;
 
-            PlayNextSound();
+            // PlayNextSound();
+            if(soundController != null)
+                soundController.PlayNextSound();
+
             _soundPlayed = true;
         }
 
@@ -76,9 +68,9 @@ public class CharacterBehavior : MonoBehaviour
         }
 
         // Check if we are exiting slow mode
-        if(Input.GetButtonUp("Jump") && audioSource.pitch != _initialPitch)
+        if(Input.GetButtonUp("Jump"))
         {
-            audioSource.pitch = _initialPitch;
+            soundController.RevertAudio();
         }
 
         if(moveVelocity != _targetMoveVelocity)
@@ -144,7 +136,8 @@ public class CharacterBehavior : MonoBehaviour
                 if (Input.GetButton("Jump"))
                 {
                     height = jumpHeight * 2f;
-                    ShiftAudio(-2f);
+                    if(soundController != null)
+                        soundController.ShiftAudio(-2f);
                 }
                 Jump(height);
             }
@@ -170,33 +163,10 @@ public class CharacterBehavior : MonoBehaviour
         return _lastGroundedPosY;
     }
 
-    private void PlayNextSound()
-    {
-        float p = GetNextNote();
-        audioSource.pitch = p;
-        audioSource.Play();
-    }
-
-    private float GetNextNote()
-    {
-        int i = UnityEngine.Random.Range(0, semitonePallette.Length);
-        return GetPitchFromSemitones(semitonePallette[i]);
-    }
-
-    private float GetPitchFromSemitones(float s)
-    {
-        return Mathf.Pow(SEMITONE_CONSTANT, s);
-    }
-
-    private void ShiftAudio(float s)
-    {
-        audioSource.pitch = GetPitchFromSemitones(s);
-    }
-
     /// <summary>
     /// Maps value from range A to range B
     /// </summary>
-    private float Map(float value, float minA, float maxA, float minB, float maxB)
+    public float Map(float value, float minA, float maxA, float minB, float maxB)
     {
         float t = Mathf.InverseLerp(minA, maxA, value);
         float output = Mathf.Lerp(minB, maxB, t);
@@ -204,7 +174,7 @@ public class CharacterBehavior : MonoBehaviour
         return output;
     }
 
-    private float Evaluate(float x)
+    public float Evaluate(float x)
     {
         return 0.5f * Mathf.Sin(x - Mathf.PI / 2f) + 0.5f;
     }
