@@ -45,7 +45,10 @@ public class Follower : MonoBehaviour
         // Move towards target
         else
         {
-            if (_distance <= closeDistance)
+            _targetPosition = _initialPosition;
+            _distance = Vector3.Distance(_targetPosition, transform.position);
+
+            if (_distance <= closeDistance) // Magic numberr
             {
                 _dir = Vector3.zero;
             }
