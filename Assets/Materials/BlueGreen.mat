@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Red_Toon
+  m_Name: BlueGreen
   m_Shader: {fileID: -6465566751694194690, guid: 9c3428d4976c9544fba3a892e25dcc03, type: 3}
   m_Parent: {fileID: 2100000, guid: f921c0109eaa04a439453ae6a497c3df, type: 2}
   m_ModifiedSerializedProperties: 0
@@ -31,7 +31,7 @@ Material:
     m_Floats:
     - _Min: 0
     m_Colors:
-    - _Color: {r: 0.9339623, g: 0.24230155, b: 0.2561318, a: 1}
+    - _Color: {r: 0.5517978, g: 0.754717, b: 0.713196, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5554098145741798118
 MonoBehaviour:

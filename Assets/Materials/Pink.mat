@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LightCarpet
+  m_Name: Pink
   m_Shader: {fileID: -6465566751694194690, guid: 9c3428d4976c9544fba3a892e25dcc03, type: 3}
   m_Parent: {fileID: 2100000, guid: d35312264f7a95c46811bd11286eaa83, type: 2}
   m_ModifiedSerializedProperties: 0
@@ -22,16 +22,12 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _Texture:
-        m_Texture: {fileID: 2800000, guid: b1ab0641e1e079e4e88bfaf86a80e5f7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
     - _Min: 0.1
     m_Colors:
-    - _Color: {r: 1, g: 0.6839622, b: 0.6907057, a: 1}
+    - _Color: {r: 1, g: 0.6179246, b: 0.6640089, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5554098145741798118
 MonoBehaviour:
