@@ -1,8 +1,5 @@
 using System;
 using UnityEngine;
-
-
-
 public class CharacterBehavior : MonoBehaviour
 {
     public CharacterController controller;
