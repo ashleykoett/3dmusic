@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Brick
   m_Shader: {fileID: -6465566751694194690, guid: 9c3428d4976c9544fba3a892e25dcc03, type: 3}
-  m_Parent: {fileID: 2100000, guid: 797bca5f3bc3d3d4ab2a6e178d2fa3b6, type: 2}
+  m_Parent: {fileID: 2100000, guid: c70ccc4f68311db44a7c7c7d1020c915, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []

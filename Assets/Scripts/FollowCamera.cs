@@ -42,6 +42,8 @@ public class FollowCamera : MonoBehaviour
         characterBehavior = player.GetComponent<CharacterBehavior>();
         _offsetVector = new Vector3(xOffset, yOffset, zOffset);
         _initialRotation = transform.rotation;
+
+        transform.position = _offsetVector + player.transform.position;
     }
     void Update()
     {
