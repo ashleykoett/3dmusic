@@ -6,6 +6,7 @@ using UnityEngine;
 public class SpinnerBehavior : CharacterBehavior
 {
     public Spin spin;
+    private bool _moving = false;
 
     private void Start()
     {
@@ -13,6 +14,18 @@ public class SpinnerBehavior : CharacterBehavior
     }
     public override void MoveCharacter(Vector3 moveVelocity, bool jumpEnabled = true)
     {
+        if(moveVelocity != Vector3.zero && !_moving) 
+        {
+            _moving = true;
+            soundController.FadeInSound();
+        }
+
+        if(moveVelocity == Vector3.zero && _moving)
+        {
+            soundController.FadeOutSound();
+            _moving = false;
+        }
+
         base._grounded = controller.isGrounded;
 
         // Stop player from moving through the floor
