@@ -26,6 +26,16 @@ public class SpinnerBehavior : CharacterBehavior
             _moving = false;
         }
 
+        if (Input.GetButtonUp("Jump"))
+        {
+            soundController.RevertAudio();
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            soundController.ShiftAudio(PRIMARY_PITCH_SHIFT);
+        }
+
         base._grounded = controller.isGrounded;
 
         // Stop player from moving through the floor

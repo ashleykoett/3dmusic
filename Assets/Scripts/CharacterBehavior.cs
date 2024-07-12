@@ -1,7 +1,11 @@
 using System;
 using UnityEngine;
+
 public class CharacterBehavior : MonoBehaviour
 {
+    protected const float PRIMARY_PITCH_SHIFT = -3f;
+    protected const float SECONDARY_PITCH_SHIFT = 1F;
+
     public CharacterController controller;
     public CharacterSoundController soundController;
     public float jumpHeight;
@@ -113,6 +117,20 @@ public class CharacterBehavior : MonoBehaviour
         {
             transform.forward = moveVelocity;
 
+            // Jump
+            float timer = Time.time - _lastJumpTime;
+            if (_grounded && timer >= jumpFrequency)
+            {
+                float height = jumpHeight;
+                if (Input.GetButton("Jump"))
+                {
+                    height = jumpHeight * 2f;
+                    if (soundController != null)
+                        soundController.ShiftAudio(PRIMARY_PITCH_SHIFT);
+                }
+                Jump(height);
+            }
+
             if (_jumping)
             {
                 // Map character velocity to scale (visual effect)
@@ -122,21 +140,6 @@ public class CharacterBehavior : MonoBehaviour
             
                 _currentScale = new Vector3(outputX, outputY, outputZ);
                 transform.localScale = _currentScale;
-            }
-            
-
-            // Jump
-            float timer = Time.time - _lastJumpTime;
-            if (_grounded && timer >= jumpFrequency)
-            {
-                float height = jumpHeight;
-                if (Input.GetButton("Jump"))
-                {
-                    height = jumpHeight * 2f;
-                    if(soundController != null)
-                        soundController.ShiftAudio(-2f);
-                }
-                Jump(height);
             }
         }
 

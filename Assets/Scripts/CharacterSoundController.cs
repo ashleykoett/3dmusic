@@ -14,6 +14,8 @@ public class CharacterSoundController : MonoBehaviour
     private float _targetGain = 0f;
     private float _currentGain = 0f;
     private bool _startFade = false;
+    private float _currentSemitones = 0f;
+    private float _pitchMod = 0f;
 
     void Start()
     {
@@ -30,8 +32,6 @@ public class CharacterSoundController : MonoBehaviour
         {
             _timer += Time.deltaTime;
             _t = Mathf.Clamp(_timer/fadeLength, 0, 1);
-
-            Debug.Log(_t);
 
             _currentGain = Mathf.Lerp(_currentGain, _targetGain, _t);
             audioSource.volume = _currentGain;
@@ -84,7 +84,8 @@ public class CharacterSoundController : MonoBehaviour
     public float GetNextNote()
     {
         int i = Random.Range(0, semitonePallette.Length);
-        return GetPitchFromSemitones(semitonePallette[i]);
+        _currentSemitones = semitonePallette[i];
+        return GetPitchFromSemitones(semitonePallette[i] + _pitchMod);
     }
 
     public float GetPitchFromSemitones(float s)
@@ -94,11 +95,15 @@ public class CharacterSoundController : MonoBehaviour
 
     public void ShiftAudio(float s)
     {
-        audioSource.pitch = GetPitchFromSemitones(s);
+        float shiftPitch = _currentSemitones + s;
+        audioSource.pitch = GetPitchFromSemitones(shiftPitch);
+
+        _pitchMod = s;
     }
 
     public void RevertAudio()
     {
         audioSource.pitch = _initialPitch;
+        _pitchMod = 0f;
     }
 }
