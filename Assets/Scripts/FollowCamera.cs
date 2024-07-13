@@ -8,6 +8,7 @@ public class FollowCamera : MonoBehaviour
     public GameObject player;
 
     public CharacterBehavior characterBehavior;
+    public Camera activeCamera;
 
     [Range(-50f, 50f)]
     public float xOffset = 0.0f;
@@ -37,6 +38,12 @@ public class FollowCamera : MonoBehaviour
     private bool _animateRotation = false;
     private float _animationLength = 1f;
 
+    private bool _animateSize = false;
+    private float _fromCameraSize = 0f;
+    private float _initialCameraSize = 0f;
+    private float _currentCameraSize = 0f;
+    private float _targetCameraSize = 0f;
+
     private void Start()
     {
         characterBehavior = player.GetComponent<CharacterBehavior>();
@@ -44,11 +51,15 @@ public class FollowCamera : MonoBehaviour
         _initialRotation = transform.rotation;
 
         transform.position = _offsetVector + player.transform.position;
+
+        activeCamera = GetComponent<Camera>();
+        _initialCameraSize = activeCamera.orthographicSize;
+        _currentCameraSize = _initialCameraSize;
     }
     void Update()
     {
         // Handle current animation state
-        if (_animateRotation || _animateOffset)
+        if (_animateRotation || _animateOffset || _animateSize)
         {
             _animTime += Time.deltaTime;
             float _animT = Mathf.Clamp(_animTime / _animationLength, 0, 1);
@@ -63,6 +74,13 @@ public class FollowCamera : MonoBehaviour
             {
                 _currentPosition = Vector3.Lerp(_fromPosition, _targetPosition, _animT);
                 transform.position = _currentPosition;
+            }
+
+            if(_animateSize)
+            {
+                _currentCameraSize = Mathf.Lerp(_fromCameraSize, _targetCameraSize, _animT);
+                activeCamera.orthographicSize = _currentCameraSize;
+
             }
 
             if (_animT == 1)
@@ -122,6 +140,28 @@ public class FollowCamera : MonoBehaviour
         _offsetVector = new Vector3(xOffset, yOffset, zOffset);
         _targetPosition = _offsetVector + playerPosition;
         _fromPosition = transform.position;
+        _animationLength = animationLength;
+        _animateOffset = true;
+        _t = 0;
+    }
+
+    public void ChangeCameraSize(float size, float animationLength)
+    {
+        _targetCameraSize = size;
+        _fromCameraSize = _currentCameraSize;
+        _animateSize = true;
+        _animTime = 0;
+        _animationLength = animationLength;
+        _animateOffset = true;
+        _t = 0;
+    }
+
+    public void ResetCameraSize(float animationLength)
+    {
+        _targetCameraSize = _initialCameraSize;
+        _fromCameraSize = _currentCameraSize;
+        _animateSize = false;
+        _animTime = 0;
         _animationLength = animationLength;
         _animateOffset = true;
         _t = 0;

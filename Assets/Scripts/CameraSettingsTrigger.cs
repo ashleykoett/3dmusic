@@ -1,6 +1,7 @@
 using DigitalRuby.Tween;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class CameraSettingsTrigger : MonoBehaviour
@@ -13,6 +14,9 @@ public class CameraSettingsTrigger : MonoBehaviour
     public bool changeOffset = true;
     public Vector3 offset = Vector3.zero;
 
+    public bool changeSize = false;
+    public float size = 0f;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -21,6 +25,8 @@ public class CameraSettingsTrigger : MonoBehaviour
                 followCamera.RotateCamera(rotation, animationLength);
             if(changeOffset)
                 followCamera.ChangeOffsetPostion(offset, animationLength);
+            if(changeSize)
+                followCamera.ChangeCameraSize(size, animationLength);
         }
     }
 
@@ -32,6 +38,8 @@ public class CameraSettingsTrigger : MonoBehaviour
                 followCamera.ResetCameraRotation(animationLength);
             if (changeOffset)
                 followCamera.ResetOffsetPosition(animationLength);
+            if (changeSize)
+                followCamera.ResetCameraSize(animationLength);
         }
     }
 }
