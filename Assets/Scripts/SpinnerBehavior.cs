@@ -8,33 +8,30 @@ public class SpinnerBehavior : CharacterBehavior
     public Spin spin;
     private bool _moving = false;
 
-    private void Start()
+    public override void Start()
     {
         spin = GetComponentInChildren<Spin>();
     }
     public override void MoveCharacter(Vector3 moveVelocity, bool jumpEnabled = true)
     {
-        if(moveVelocity != Vector3.zero && !_moving) 
+        if (moveVelocity != Vector3.zero && !_moving)
         {
             _moving = true;
             soundController.FadeInSound();
         }
 
-        if(moveVelocity == Vector3.zero && _moving)
+        if (moveVelocity == Vector3.zero && _moving)
         {
             soundController.FadeOutSound();
             _moving = false;
         }
 
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth"))
         {
             soundController.RevertAudio();
         }
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            soundController.ShiftAudio(PRIMARY_PITCH_SHIFT);
-        }
+        base.HandleInput();
 
         base._grounded = controller.isGrounded;
 
@@ -70,7 +67,7 @@ public class SpinnerBehavior : CharacterBehavior
         {
             transform.forward = moveVelocity;
 
-            if(spin != null)
+            if (spin != null)
             {
                 spin.enabled = true;
             }

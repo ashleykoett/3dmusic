@@ -1,13 +1,8 @@
 using System;
 using UnityEngine;
 
-public class CharacterBehavior : MonoBehaviour
+public class CharacterBehavior : BaseBehavior
 {
-    protected const float PRIMARY_PITCH_SHIFT = -3f;
-    protected const float SECONDARY_PITCH_SHIFT = 1F;
-
-    public CharacterController controller;
-    public CharacterSoundController soundController;
     public float jumpHeight;
     public float jumpFrequency;
     public float speed = 2f;
@@ -29,13 +24,15 @@ public class CharacterBehavior : MonoBehaviour
     protected bool _soundPlayed = false;
     protected bool _jumping = false;
     protected float _lastGroundedPosY = 0f;
+    protected float _currentJumpHeight = 0f;
 
 
-    private void Start()
+    public override void Start()
     {
         controller = GetComponent<CharacterController>();
         _initialScale = transform.localScale;
         _currentScale = transform.localScale;
+        _currentJumpHeight = jumpHeight;
 
         _lastGroundedPosY = transform.position.y;
 
@@ -45,7 +42,7 @@ public class CharacterBehavior : MonoBehaviour
         soundController = GetComponent<CharacterSoundController>();
     }
 
-    public virtual void MoveCharacter(Vector3 moveVelocity, bool jumpEnabled = true)
+    public override void MoveCharacter(Vector3 moveVelocity, bool jumpEnabled = true)
     {
         // See if we just hit the ground
         if (!_grounded && controller.isGrounded && !_soundPlayed)
@@ -69,9 +66,10 @@ public class CharacterBehavior : MonoBehaviour
         }
 
         // Check if we are exiting slow mode
-        if(Input.GetButtonUp("Jump"))
+        if(Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth"))
         {
             soundController.RevertAudio();
+            _currentJumpHeight = jumpHeight;
         }
 
         if(moveVelocity != _targetMoveVelocity)
@@ -121,14 +119,8 @@ public class CharacterBehavior : MonoBehaviour
             float timer = Time.time - _lastJumpTime;
             if (_grounded && timer >= jumpFrequency)
             {
-                float height = jumpHeight;
-                if (Input.GetButton("Jump"))
-                {
-                    height = jumpHeight * 2f;
-                    if (soundController != null)
-                        soundController.ShiftAudio(PRIMARY_PITCH_SHIFT);
-                }
-                Jump(height);
+                HandleInput();
+                Jump(_currentJumpHeight);
             }
 
             if (_jumping)
@@ -150,6 +142,34 @@ public class CharacterBehavior : MonoBehaviour
         _currentMoveVelocity = moveVelocity;
     }
 
+    public override void HandleInput()
+    {
+        if(Input.GetButton("Primary"))
+        {
+            _currentJumpHeight = jumpHeight * 2f;
+            if (soundController != null)
+                soundController.ShiftAudio(PRIMARY_PITCH_SHIFT);
+        }
+        if (Input.GetButton("Secondary"))
+        {
+            _currentJumpHeight = jumpHeight * 1.5f;
+            if (soundController != null)
+                soundController.ShiftAudio(SECONDARY_PITCH_SHIFT);
+        }
+        if (Input.GetButton("Third"))
+        {
+            _currentJumpHeight = jumpHeight * 0.8f;
+            if (soundController != null)
+                soundController.ShiftAudio(THIRD_PITCH_SHIFT);
+        }
+        if (Input.GetButton("Fourth"))
+        {
+            _currentJumpHeight = jumpHeight * 2.2f;
+            if (soundController != null)
+                soundController.ShiftAudio(FOURTH_PITCH_SHIFT);
+        }
+    }
+
     public virtual void Jump(float height)
     {
         _jumping = true;
@@ -161,21 +181,5 @@ public class CharacterBehavior : MonoBehaviour
     public float GetLastGroundedPosition()
     {
         return _lastGroundedPosY;
-    }
-
-    /// <summary>
-    /// Maps value from range A to range B
-    /// </summary>
-    public float Map(float value, float minA, float maxA, float minB, float maxB)
-    {
-        float t = Mathf.InverseLerp(minA, maxA, value);
-        float output = Mathf.Lerp(minB, maxB, t);
-
-        return output;
-    }
-
-    public float Evaluate(float x)
-    {
-        return 0.5f * Mathf.Sin(x - Mathf.PI / 2f) + 0.5f;
     }
 }

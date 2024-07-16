@@ -4,41 +4,51 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class SineFollow : MonoBehaviour
+public class SineFollow : Follower
 {
     public GameObject player;
-    public float followDistance;
     public float movementSpeed = 5f;
     public float amplitude = 5f;
     public float period = 5f;
 
-    private float _t = 0f;
-    private Vector3 _startPosition;
-    private Vector3 _followPosition;
-    private Vector3 _targetPosition;
+    public CharacterSoundController characterSoundController;
+    public BaseBehavior baseBehavior;
 
-    private void Start()
+    private float _t = 0f;
+    private bool _moving = false;
+
+    public override void Start()
     {
-        _startPosition = transform.position;
+        _initialPosition = transform.position;
+        characterSoundController = GetComponent<CharacterSoundController>();
+        baseBehavior = GetComponent<BaseBehavior>();
     }
 
-    void Update()
+    public override void Update()
     {
         _targetPosition = player.transform.position;
-        if(_targetPosition.x < transform.position.x)
+        if(_targetPosition.x < transform.position.x || _targetPosition.x > followDistance)
         {
+            if (_moving)
+            {
+                characterSoundController.FadeOutSound();
+            }
+            
+            _moving = false;
             return;
         }
 
-        if(_targetPosition.x > followDistance)
+        if(!_moving)
         {
-            return;
+            characterSoundController.FadeInSound();
+            _moving = true;
         }
 
+        baseBehavior.MoveCharacter(Vector3.zero);
         _t += Time.deltaTime;
         Vector3 pos = transform.position;
         pos.x += movementSpeed * Time.deltaTime;
-        pos.y = _startPosition.y + Mathf.Sin(_t / period) * amplitude;
+        pos.y = _initialPosition.y + Mathf.Sin(_t / period) * amplitude;
 
         transform.position = pos;
     }

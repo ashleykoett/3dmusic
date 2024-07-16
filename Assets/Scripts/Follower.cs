@@ -11,13 +11,13 @@ public class Follower : MonoBehaviour
     public bool startActive = true;
     public string groupName = "";
 
-    private bool _followActive = true;
-    private Vector3 _initialPosition;
-    private Vector3 _followPosition;
-    private Vector3 _targetPosition;
-    private Vector3 _dir;
-    private float _distance;
-    private bool _nearOrigin = false;
+    protected bool _followActive = true;
+    protected Vector3 _initialPosition;
+    protected Vector3 _followPosition;
+    protected Vector3 _targetPosition;
+    protected Vector3 _dir;
+    protected float _distance;
+    protected bool _nearOrigin = false;
 
     private void OnEnable()
     {
@@ -29,13 +29,13 @@ public class Follower : MonoBehaviour
         DismissFollwers.OnDismiss -= Unfollow;
     }
 
-    private void Start()
+    public virtual void Start()
     {
         characterBehavior = GetComponent<CharacterBehavior>();
         _initialPosition = transform.position;
     }
 
-    public void Update()
+    public virtual void Update()
     {
         if (!_followActive && _nearOrigin)
         {
