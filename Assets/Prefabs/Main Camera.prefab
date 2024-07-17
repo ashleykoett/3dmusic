@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.21541947, y: -0.0946763, z: 0.02098923, w: 0.9716945}
   m_LocalPosition: {x: -942.5, y: 23.7, z: -18.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.76, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -66,11 +66,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: -200
+  far clip plane: 1000000
   field of view: 65
-  orthographic: 0
-  orthographic size: 10
+  orthographic: 1
+  orthographic size: 31
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -108,10 +108,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   characterBehavior: {fileID: 0}
-  xOffset: 7.4
-  yOffset: 30.4
-  zOffset: -31.3
-  smoothing: 0.1
+  activeCamera: {fileID: 0}
+  xOffset: 0
+  yOffset: 23
+  zOffset: -28
+  smoothing: 5
 --- !u!114 &7827540201764803604
 MonoBehaviour:
   m_ObjectHideFlags: 0
