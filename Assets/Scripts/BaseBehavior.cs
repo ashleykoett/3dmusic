@@ -5,9 +5,9 @@ using UnityEngine;
 public class BaseBehavior : MonoBehaviour
 {
     protected const float PRIMARY_PITCH_SHIFT = -3f;
-    protected const float SECONDARY_PITCH_SHIFT = 2F;
-    protected const float THIRD_PITCH_SHIFT = -1f;
-    protected const float FOURTH_PITCH_SHIFT = 3F;
+    protected const float SECONDARY_PITCH_SHIFT = 3F;
+    protected const float THIRD_PITCH_SHIFT = -5f;
+    protected const float FOURTH_PITCH_SHIFT = 5F;
 
     public CharacterController controller;
     public CharacterSoundController soundController;

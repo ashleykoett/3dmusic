@@ -20,8 +20,10 @@ public class SineFollow : Follower
     public override void Start()
     {
         _initialPosition = transform.position;
-        characterSoundController = GetComponent<CharacterSoundController>();
-        baseBehavior = GetComponent<BaseBehavior>();
+        if(GetComponent<CharacterSoundController>())
+            characterSoundController = GetComponent<CharacterSoundController>();
+        if(GetComponent<BaseBehavior>())
+            baseBehavior = GetComponent<BaseBehavior>();
     }
 
     public override void Update()
@@ -31,7 +33,7 @@ public class SineFollow : Follower
         {
             if (_moving)
             {
-                characterSoundController.FadeOutSound();
+                if(characterSoundController) characterSoundController.FadeOutSound();
             }
             
             _moving = false;
@@ -40,11 +42,11 @@ public class SineFollow : Follower
 
         if(!_moving)
         {
-            characterSoundController.FadeInSound();
+            if (characterSoundController) characterSoundController.FadeInSound();
             _moving = true;
         }
 
-        baseBehavior.MoveCharacter(Vector3.zero);
+        if(baseBehavior) baseBehavior.MoveCharacter(Vector3.zero);
         _t += Time.deltaTime;
         Vector3 pos = transform.position;
         pos.x += movementSpeed * Time.deltaTime;
