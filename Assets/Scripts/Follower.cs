@@ -21,18 +21,23 @@ public class Follower : MonoBehaviour
 
     private void OnEnable()
     {
-        DismissFollwers.OnDismiss += Unfollow;
+        DismissFollowers.OnDismiss += Unfollow;
+        ActivateFollowers.OnActivateFollowers += ActivateFollow;
+        
     }
 
     private void OnDisable()
     {
-        DismissFollwers.OnDismiss -= Unfollow;
+        DismissFollowers.OnDismiss -= Unfollow;
+        ActivateFollowers.OnActivateFollowers -= ActivateFollow;
     }
 
     public virtual void Start()
     {
         characterBehavior = GetComponent<CharacterBehavior>();
         _initialPosition = transform.position;
+
+        _followActive = startActive;
     }
 
     public virtual void Update()
@@ -82,6 +87,14 @@ public class Follower : MonoBehaviour
         }
 
         characterBehavior.MoveCharacter(_dir);
+    }
+
+    public void ActivateFollow(string group)
+    {
+        if(groupName == group)
+        {
+            SetFollowActive(true);
+        }
     }
 
     public void Unfollow(string group)

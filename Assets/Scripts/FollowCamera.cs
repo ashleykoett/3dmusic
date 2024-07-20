@@ -87,6 +87,7 @@ public class FollowCamera : MonoBehaviour
             {
                 _animateOffset = false;
                 _animateRotation = false;
+                _animateSize = false;
             }
         }
 
