@@ -14,7 +14,7 @@ public class SineFollow : Follower
     public CharacterSoundController characterSoundController;
     public BaseBehavior baseBehavior;
 
-    private float _t = 0f;
+    protected float _t = 0f;
     private bool _moving = false;
 
     public override void Start()
