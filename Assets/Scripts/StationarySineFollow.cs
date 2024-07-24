@@ -7,6 +7,8 @@ public class StationarySineFollow : SineFollow
     private bool _inRange = false;
     public override void Update()
     {
+        if(!base._followActive) return;
+
         _targetPosition = player.transform.position;
 
         if(Vector3.Distance(_targetPosition, transform.position) > base.followDistance && _inRange)

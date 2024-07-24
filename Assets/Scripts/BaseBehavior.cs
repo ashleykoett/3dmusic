@@ -8,6 +8,8 @@ public class BaseBehavior : MonoBehaviour
     protected const float SECONDARY_PITCH_SHIFT = 3F;
     protected const float THIRD_PITCH_SHIFT = -5f;
     protected const float FOURTH_PITCH_SHIFT = 5F;
+    protected const float LEFT_PITCH_SHIFT = -6F;
+    protected const float RIGHT_PITCH_SHIFT = 7;
 
     public CharacterController controller;
     public CharacterSoundController soundController;
@@ -17,20 +19,25 @@ public class BaseBehavior : MonoBehaviour
         soundController = GetComponent<CharacterSoundController>();
         controller = GetComponent<CharacterController>();
     }
+
+    public virtual void Update()
+    {
+        HandleInput();
+    }
     public virtual void MoveCharacter(Vector3 moveVelocity, bool jumpEnabled = true)
     {
+        HandleInput();
+    }
+
+    public virtual void HandleInput()
+    {
         // Check if we are exiting slow mode
-        if (Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth"))
+        if (Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth") || Input.GetButtonUp("LeftTrigger") || Input.GetButtonUp("RightTrigger"))
         {
             soundController.RevertAudio();
             return;
         }
-        HandleInput();
-    }
-        
 
-    public virtual void HandleInput()
-    {
         if (Input.GetButton("Primary"))
         {
             if (soundController != null)
@@ -50,6 +57,16 @@ public class BaseBehavior : MonoBehaviour
         {
             if (soundController != null)
                 soundController.ShiftAudio(FOURTH_PITCH_SHIFT);
+        }
+        if (Input.GetButton("LeftTrigger"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(LEFT_PITCH_SHIFT);
+        }
+        if (Input.GetButton("RightTrigger"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(RIGHT_PITCH_SHIFT);
         }
     }
 

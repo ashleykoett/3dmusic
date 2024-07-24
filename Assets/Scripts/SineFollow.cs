@@ -24,6 +24,8 @@ public class SineFollow : Follower
             characterSoundController = GetComponent<CharacterSoundController>();
         if(GetComponent<BaseBehavior>())
             baseBehavior = GetComponent<BaseBehavior>();
+
+        _followActive = base.startActive;
     }
 
     public override void Update()

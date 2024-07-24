@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class CharacterBehavior : BaseBehavior
 {
@@ -66,7 +67,7 @@ public class CharacterBehavior : BaseBehavior
         }
 
         // Check if we are exiting slow mode
-        if(Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth"))
+        if(Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth") || Input.GetButtonUp("LeftTrigger") || Input.GetButtonUp("RightTrigger"))
         {
             soundController.RevertAudio();
             _currentJumpHeight = jumpHeight;
@@ -167,6 +168,18 @@ public class CharacterBehavior : BaseBehavior
             _currentJumpHeight = jumpHeight * 2.2f;
             if (soundController != null)
                 soundController.ShiftAudio(FOURTH_PITCH_SHIFT);
+        }
+        if (Input.GetButton("LeftTrigger"))
+        {
+            _currentJumpHeight = jumpHeight * 2.5f;
+            if (soundController != null)
+                soundController.ShiftAudio(LEFT_PITCH_SHIFT);
+        }
+        if (Input.GetButton("RightTrigger"))
+        {
+            _currentJumpHeight = jumpHeight * 0.5f;
+            if (soundController != null)
+                soundController.ShiftAudio(RIGHT_PITCH_SHIFT);
         }
     }
 

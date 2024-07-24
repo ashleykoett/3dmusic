@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class SpinnerBehavior : CharacterBehavior
 {
-    public Spin spin;
+    public Spin[] spins;
     private bool _moving = false;
 
     public override void Start()
     {
-        spin = GetComponentInChildren<Spin>();
+        soundController = GetComponent<CharacterSoundController>();
+        controller = GetComponent<CharacterController>();
+        spins = GetComponentsInChildren<Spin>();
     }
     public override void MoveCharacter(Vector3 moveVelocity, bool jumpEnabled = true)
     {
@@ -24,11 +26,6 @@ public class SpinnerBehavior : CharacterBehavior
         {
             soundController.FadeOutSound();
             _moving = false;
-        }
-
-        if (Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth"))
-        {
-            soundController.RevertAudio();
         }
 
         base.HandleInput();
@@ -67,14 +64,14 @@ public class SpinnerBehavior : CharacterBehavior
         {
             transform.forward = moveVelocity;
 
-            if (spin != null)
+            foreach (var spin in spins)
             {
                 spin.enabled = true;
             }
         }
         else
         {
-            if (spin != null)
+            foreach (var spin in spins)
             {
                 spin.enabled = false;
             }
@@ -85,5 +82,65 @@ public class SpinnerBehavior : CharacterBehavior
         controller.Move(_playerVelocity * Time.deltaTime);
 
         _currentMoveVelocity = moveVelocity;
+    }
+
+    public override void HandleInput()
+    {
+        float multiplier = 1f;
+        // Check if we are exiting slow mode
+        if (Input.GetButtonUp("Primary") || Input.GetButtonUp("Secondary") || Input.GetButtonUp("Third") || Input.GetButtonUp("Fourth") || Input.GetButtonUp("LeftTrigger") || Input.GetButtonUp("RightTrigger"))
+        {
+            soundController.RevertAudio();
+            foreach (var spin in spins)
+            {
+                spin.RevertSpeed();
+            }
+            return;
+        }
+
+        if (Input.GetButton("Primary"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(PRIMARY_PITCH_SHIFT);
+            multiplier = 0.8f;
+        }
+        if (Input.GetButton("Secondary"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(SECONDARY_PITCH_SHIFT);
+            multiplier = 1.2f;
+        }
+        if (Input.GetButton("Third"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(THIRD_PITCH_SHIFT);
+            multiplier = 0.6f;
+        }
+        if (Input.GetButton("Fourth"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(FOURTH_PITCH_SHIFT);
+            multiplier = 1.5f;
+        }
+        if (Input.GetButton("LeftTrigger"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(LEFT_PITCH_SHIFT);
+            multiplier = 0.5f;
+        }
+        if (Input.GetButton("RightTrigger"))
+        {
+            if (soundController != null)
+                soundController.ShiftAudio(RIGHT_PITCH_SHIFT);
+            multiplier = 1.7f;
+        }
+
+        if (multiplier != 1)
+        {
+            foreach (var spin in spins)
+            {
+                spin.AdjustSpeed(multiplier);
+            }
+        }
     }
 }
