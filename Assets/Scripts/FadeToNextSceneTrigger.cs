@@ -41,6 +41,11 @@ public class FadeToNextSceneTrigger : MonoBehaviour
         }
     }
 
+    public void StartFade()
+    {
+        this._startFade = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

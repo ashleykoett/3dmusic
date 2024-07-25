@@ -28,7 +28,6 @@ public class StationarySineFollow : SineFollow
 
         _t += Time.deltaTime;
         Vector3 pos = transform.position;
-        pos.x += movementSpeed * Time.deltaTime;
         pos.y = _initialPosition.y + Mathf.Sin(_t / period) * amplitude;
 
         transform.position = pos;
