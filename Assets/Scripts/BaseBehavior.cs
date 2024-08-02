@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BaseBehavior : MonoBehaviour
 {
-    protected const float PRIMARY_PITCH_SHIFT = -3f;
-    protected const float SECONDARY_PITCH_SHIFT = 3F;
-    protected const float THIRD_PITCH_SHIFT = -5f;
-    protected const float FOURTH_PITCH_SHIFT = 5F;
-    protected const float LEFT_PITCH_SHIFT = -6F;
-    protected const float RIGHT_PITCH_SHIFT = 7;
+    protected const float PRIMARY_PITCH_SHIFT = -2f;
+    protected const float SECONDARY_PITCH_SHIFT = 2F;
+    protected const float THIRD_PITCH_SHIFT = -4f;
+    protected const float FOURTH_PITCH_SHIFT = 4F;
+    protected const float LEFT_PITCH_SHIFT = -5F;
+    protected const float RIGHT_PITCH_SHIFT = 5;
 
     public CharacterController controller;
     public CharacterSoundController soundController;
